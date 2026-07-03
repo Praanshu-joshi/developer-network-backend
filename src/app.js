@@ -7,7 +7,7 @@ const http = require("http");
 
 require("dotenv").config();
 
-require("./utils/cronjob");
+
 
 app.use(
   cors({
@@ -34,13 +34,15 @@ app.use("/", chatRouter);
 const server = http.createServer(app);
 initializeSocket(server);
 
+const PORT = process.env.PORT || 7777;
+
 connectDB()
   .then(() => {
     console.log("Database connection established...");
-    server.listen(process.env.PORT, () => {
-      console.log("Server is successfully listening on port 7777...");
+    server.listen(PORT, () => {
+      console.log(`Server is successfully listening on port ${PORT}...`);
     });
   })
   .catch((err) => {
-    console.error("Database cannot be connected!!");
+    console.error("Database cannot be connected!!", err);
   });
